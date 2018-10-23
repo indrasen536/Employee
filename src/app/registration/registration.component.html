@@ -1,0 +1,139 @@
+<div class="container ">
+  <div class="reglist">
+    <table class="table table-striped ">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Dept</th>
+          <th>EmpType</th>
+          <th>Medical</th>
+          <th>HRA</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let registration of registrations; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ registration.name }}</td>
+          <td>{{ registration.age }}</td>
+          <td>{{ registration.dept}}</td>
+          <td>{{ registration.empType }}</td>
+          <td>{{ registration.medical }}</td>
+          <td>{{ registration.hra }}</td>
+          <td>
+            <button type="button" class="btn btn-info"  data-toggle="modal" data-target="#myModal"  (click)="onEdit(i)">Edit</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger"   (click)="onDelete(i)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-right">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" (click)="onNew()">New</button>
+    </div>
+  </div>
+  <br>
+</div>
+
+<div class="modal fade" data-backdrop="static" id="myModal" role="dialog" >
+   
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+
+        
+      <div class="modal-body" style="border-radius:1px;color:blue">
+          
+        
+          <div>
+          <form (ngSubmit)="onSave()" class="form-horizontal"  >
+              
+                  <h4 class="modal-title">Update Details</h4>
+                
+            <div class="form-group row">
+              <label for="name-input" class="col-2 col-form-label">
+                Name*
+              </label>
+              <div class="col-10">
+                <input required class="form-control" #userName="ngModel" type="text" [(ngModel)]="regModel.name" name="name" placeholder="enter your name" ngModel required pattern="[a-zA-Z][a-zA-Z]+">
+              </div>
+              <div *ngIf="userName.touched && userName.errors?.required"  class="alert alert-danger" >
+                  
+                    Name is Required*
+                  </div>
+                  <div *ngIf="userName.errors?.pattern" class="alert alert-danger">
+                    UserName invalid*
+                  </div>
+                
+              </div>
+            
+            <div class="form-group row">
+              <label for="age-input" class="col-2 col-form-label">
+                Age*
+              </label>
+              <div class="col-10">
+                <input required class="form-control"  #userAge="ngModel" type="number" [(ngModel)]="regModel.age" name="age" placeholder="enter your age"  ngModel maxlength="2" required pattern="[0-9]*">
+              </div>
+              <div *ngIf="userAge.touched && userAge.errors?.required"  class="alert alert-danger" >
+                  
+                  Age is Required*
+                </div>
+                <div *ngIf="userAge.errors?.pattern" class="alert alert-danger">
+                  Age invalid*
+                
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="dept-input" class="col-2 col-form-label">
+                Department
+              </label>
+              <div class="col-10 dropdown" ngbDropdown myDrop="ngbDropdown">
+                <button type="button" class="btn btn-outline-primary" id="dropdownManual" name="dept" ngbDropdownToggle>{{regModel.dept}}</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                  <button type="button" class="dropdown-item" *ngFor="let dept of department" (click)="onChangeDepartment(dept)">{{dept}}</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="emp-input" class="col-2 col-form-label">
+                EmpType
+              </label>
+              <div class="col-10 dropdown" ngbDropdown myDrop="ngbDropdown">
+                <button type="button" class="btn btn-outline-primary" id="dropdownManual" name="empType"
+                  ngbDropdownToggle>{{regModel.empType}}</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                  <button type="button" class="dropdown-item" *ngFor="let empType of employeeType" (click)="onChangeEmployee(empType)">{{empType}}</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="medical-input" class="col-2 col-form-label">
+                Medical
+              </label>
+              <div class="col-10">
+                <input class="form-control" type="text" [(ngModel)]="regModel.medical" name="medical" disabled>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="hra-input" class="col-2 col-form-label">
+                HRA
+              </label>
+              <div class="col-10">
+                <input class="form-control" type="text" [(ngModel)]="regModel.hra" name="hra" disabled>
+              </div>
+              <div class="modal-footer" > 
+              <button type="submit" class="btn btn-success"  style="margin-left:380px ;margin-top:5px;padding:5px" >{{submitType}}</button>
+              <button type="button" class="btn btn-primary" #myModal data-dismiss="modal" style="margin-left:10px ;margin-top:5px" >Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
